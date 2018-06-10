@@ -1,0 +1,11 @@
+.git
+install/
+src/
+node_modules/
+.vscode/
+
+local-*
+*-local.*
+
+# !server/
+# !client/

@@ -1,0 +1,44 @@
+{
+  "name": "tareas",
+  "description": "administrador de tareas",
+  "version": "0.1.0",
+  "author": "Codenautas <codenautas@googlegroups.com>",
+  "license": "MIT",
+  "main": "server/app-tareas.js",
+  "types": "server/app-tareas.d.ts",
+  "files": [
+    "client",
+    "install",
+    "server",
+    "unlogged"
+  ],
+  "repository": "codenautas/tareas",
+  "dependencies": {
+    "backend-plus": "~0.21.6",
+    "mini-tools": "~1.0.1",
+    "require-bro": "~0.1.11"
+  },
+  "devDependencies": {
+    "@types/mocha": "~5.2.1",
+    "@types/yazl": "~2.4.0",
+    "discrepances": "~0.2.2",
+    "pg-triggers": "~0.2.1",
+    "types.d.ts": "~0.1.25"
+  },
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "prepublish": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
+    "start": "node server/server-tareas.js"
+  },
+  "qa-control": {
+    "package-version": "0.3.0",
+    "coverage": 90,
+    "run-in": "server",
+    "stability": "extending",
+    "type": "app",
+    "ecmaVersion": 6
+  }
+}
