@@ -52,11 +52,11 @@ insert into tareas (objetivo, tarea, descripcion, avance)
            when 1 then 'número '||num
            when 2 then 'N '||num
            when 3 then '#'||num
-           when 4 then to_char(num,'RN')
+           when 4 then to_char(num,'FMRN')
            when 5 then 'N° '||num
            else num::text
          end || case round(random()::decimal*6,0) 
-           when 1 then '/'||objetivo
+           when 1 then '/'||replace(objetivo,'OBJ ','')
            else ''
          end,
          case when random()<0.25 then null
