@@ -28,8 +28,7 @@ export function emergeAppTareas<T extends Constructor<AppBackend>>(Base:T){
         }    
         clientIncludes(req:bp.Request, hideBEPlusInclusions:boolean){
             return super.clientIncludes(req, hideBEPlusInclusions).concat([
-                {type:'js' , module:'dexie' },
-                {type:'js' , src:'client/tareas.js'},
+                {type:'js' , src:'client/tareas.js', ts:'src/client'},
             ])
         }
         getMenu():bp.MenuDefinition{

@@ -16,7 +16,11 @@ export function objetivos(context: TableContext): TableDefinition {
         primaryKey: ['objetivo'],
         detailTables: [
             { table: 'tareas'      , fields: ['objetivo'], abr: 'T' },
-        ]
+        ],
+        offline:{
+            mode:true,
+            details:['tareas']
+        },
     };
 }
 
