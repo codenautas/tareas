@@ -28,7 +28,7 @@ myOwn.TableConnectorLocal = function(context, opts){
 
 myOwn.TableConnectorLocal.prototype.getStructure = function getStructure(){
     var connector = this;
-    connector.whenStructureReady = db.structures.get({
+    connector.whenStructureReady = db.$structures.get({
         tableName:connector.tableName
     }).then(function(tableDef){
         if(!tableDef){ 
@@ -92,62 +92,3 @@ myOwn.TableConnectorLocal.prototype.enterRecord = function enterRecord(depot){
 myOwn.TableConnectorLocal.prototype.deleteEnter = function enterRecord(depot){
     return Promise.resolve();
 };
-
-myOwn.TableConnectorDouble = function(context, opts){
-    var connector = this;
-    for(var attr in context){
-        connector[attr] = context[attr];
-    }
-    connector.opts = opts||{};
-    connector.fixedFields = connector.opts.fixedFields || [];
-    connector.fixedField = {};
-    connector.fixedFields.forEach(function(pair){
-        if(!pair.range){
-            connector.fixedField[pair.fieldName] = pair.value;
-        }
-    });
-    connector.parameterFunctions=connector.opts.parameterFunctions||{};
-    connector.local = new myOwn.TableConnectorLocal(context,opts);
-    connector.direct = new myOwn.TableConnectorDirect(context,opts);
-};
-
-myOwn.TableConnectorDouble.prototype.getStructure = function getStructure(){
-    var connector = this;
-    var structureLocal = connector.local.getStructure().then(function(tableDef){
-        return tableDef;
-    });
-    var structureDirect = connector.direct.getStructure().then(function(tableDef){
-        db.structures.put(tableDef, connector.tableName);
-        return tableDef;
-    });
-    structureLocal = structureLocal.catch(function(err){
-        return structureDirect;
-    })
-    connector.whenStructureReady = structureLocal;
-    return connector.whenStructureReady;
-};
-
-myOwn.TableConnectorDouble.prototype.getData = function getData(){
-    var connector = this;
-    return connector.direct.getData();
-};
-
-myOwn.TableConnectorDouble.prototype.deleteRecord = function deleteRecord(depot, opts){
-    return connector.direct.deleteRecord(depot, opts);
-};
-
-myOwn.TableConnectorDouble.prototype.saveRecord = function saveRecord(depot, opts){
-    return connector.direct.saveRecord(depot,opts);
-};
-
-myOwn.TableConnectorDouble.prototype.enterRecord = function enterRecord(depot){
-    return Promise.result();
-};
-myOwn.TableConnectorDouble.prototype.deleteEnter = function enterRecord(depot){
-    return Promise.result();
-};
-myOwn.TableConnectorDouble.prototype.getElementToDisplayCount = function getElementToDisplayCount(){
-    return this.direct.getElementToDisplayCount();
-};
-
-myOwn.TableConnector = myOwn.TableConnectorDouble;
