@@ -1,14 +1,10 @@
+"use strict";
 
-var Dexie = require('dexie');
+import "dialog-promise"
+import * as myOwn from "myOwn";
 
+var my=myOwn;
 myOwn.TableConnectorDirect = myOwn.TableConnector;
-
-var db = new Dexie("buffer");
-db.version(1).stores({
-    structures:'tableName',
-    objetivos:'objetivo',
-    tareas:'[objetivo+tarea]',
-});
 
 myOwn.TableConnectorLocal = function(context, opts){
     var connector = this;
@@ -26,11 +22,13 @@ myOwn.TableConnectorLocal = function(context, opts){
     connector.parameterFunctions=connector.opts.parameterFunctions||{};
 };
 
-myOwn.TableConnectorLocal.prototype.getStructure = function getStructure(){
+myOwn.TableConnectorLocal.prototype.getStructure = async function getStructure(){
     var connector = this;
-    connector.whenStructureReady = db.$structures.get({
-        tableName:connector.tableName
-    }).then(function(tableDef){
+    var tx = my.ldb.transaction(['$structures'],'readonly');
+    var os = tx.objectStore('$structures');
+    var objectStoreRequest = os.get(connector.tableName);
+    objectStoreRequest.onsuccess = function(event) {
+        var tableDef = objectStoreRequest.result;
         if(!tableDef){ 
             var err = new Error;
             err.code='NO-STRUCTURE';
@@ -38,8 +36,9 @@ myOwn.TableConnectorLocal.prototype.getStructure = function getStructure(){
         }
         connector.def = changing(tableDef, connector.opts.tableDef||{});
         return connector.def;
-    });
-    return connector.whenStructureReady;
+    };
+    //return connector.whenStructureReady;
+    //HAY QUE LOGRAR QUE EL ESPERE A QUE SE EJECUTE EL ONSUCCESS PARA HACER EL RETURN GLOBAL (ME TUVE QUE IR)
 };
 
 myOwn.TableConnectorLocal.prototype.getData = function getData(){
@@ -93,4 +92,4 @@ myOwn.TableConnectorLocal.prototype.deleteEnter = function enterRecord(depot){
     return Promise.resolve();
 };
 
-// myOwn.TableConnector = myOwn.TableConnectorLocal;
+myOwn.TableConnector = myOwn.TableConnectorLocal;

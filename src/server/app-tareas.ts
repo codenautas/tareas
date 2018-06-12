@@ -29,6 +29,7 @@ export function emergeAppTareas<T extends Constructor<AppBackend>>(Base:T){
         clientIncludes(req:bp.Request, hideBEPlusInclusions:boolean){
             return super.clientIncludes(req, hideBEPlusInclusions).concat([
                 {type:'js' , src:'client/tareas.js', ts:'src/client'},
+                {type:'js' , src:'client/table-buf.js', ts:'src/client'},
             ])
         }
         getMenu():bp.MenuDefinition{

@@ -14,13 +14,13 @@
   ],
   "repository": "codenautas/tareas",
   "dependencies": {
-    "backend-plus": "~0.21.9",
+    "backend-plus": "~0.21.10",
     "dexie": "~2.0.4",
     "mini-tools": "~1.0.1",
     "require-bro": "~0.1.11"
   },
   "devDependencies": {
-    "@types/mocha": "~5.2.1",
+    "@types/mocha": "~5.2.2",
     "@types/yazl": "~2.4.0",
     "discrepances": "~0.2.2",
     "pg-triggers": "~0.2.1",
