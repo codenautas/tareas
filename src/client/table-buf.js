@@ -92,3 +92,5 @@ myOwn.TableConnectorLocal.prototype.enterRecord = function enterRecord(depot){
 myOwn.TableConnectorLocal.prototype.deleteEnter = function enterRecord(depot){
     return Promise.resolve();
 };
+
+// myOwn.TableConnector = myOwn.TableConnectorLocal;
