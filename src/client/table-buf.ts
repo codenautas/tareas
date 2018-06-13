@@ -2,9 +2,13 @@
 
 import "dialog-promise"
 import * as myOwn from "myOwn";
+import * as bestGlobals from "best-globals";
+import { connect } from "http2";
 
+var changing=bestGlobals.changing;
 var my=myOwn;
-myOwn.TableConnectorDirect = myOwn.TableConnector;
+
+//myOwn.TableConnectorDirect = myOwn.TableConnector;
 
 myOwn.TableConnectorLocal = function(context, opts){
     var connector = this;
@@ -24,11 +28,8 @@ myOwn.TableConnectorLocal = function(context, opts){
 
 myOwn.TableConnectorLocal.prototype.getStructure = async function getStructure(){
     var connector = this;
-    var tx = my.ldb.transaction(['$structures'],'readonly');
-    var os = tx.objectStore('$structures');
-    var objectStoreRequest = os.get(connector.tableName);
-    objectStoreRequest.onsuccess = function(event) {
-        var tableDef = objectStoreRequest.result;
+    var tx = my.ldb.transaction(['$structures'],'readonly').objectStore('$structures').get(connector.tableName);
+    connector.whenStructureReady = IDBX(tx).then(function(tableDef){
         if(!tableDef){ 
             var err = new Error;
             err.code='NO-STRUCTURE';
@@ -36,12 +37,31 @@ myOwn.TableConnectorLocal.prototype.getStructure = async function getStructure()
         }
         connector.def = changing(tableDef, connector.opts.tableDef||{});
         return connector.def;
-    };
-    //return connector.whenStructureReady;
-    //HAY QUE LOGRAR QUE EL ESPERE A QUE SE EJECUTE EL ONSUCCESS PARA HACER EL RETURN GLOBAL (ME TUVE QUE IR)
+    });
+    return connector.whenStructureReady;
 };
 
 myOwn.TableConnectorLocal.prototype.getData = function getData(){
+    var connector = this;
+    if(((connector.opts||{}).tableDef||{}).forInsertOnlyMode){
+        return Promise.resolve([]);
+    }
+    return connector.my.ajax.table.data({
+        table:connector.tableName,
+        fixedFields:connector.fixedFields,
+        paramfun:connector.parameterFunctions||{}
+    }).then(function(rows){
+        return connector.whenStructureReady.then(function(){
+            connector.getElementToDisplayCount().textContent=rows.length+' '+my.messages.displaying+'...';
+            return bestGlobals.sleep(10);
+        }).then(function(){
+            connector.my.adaptData(connector.def, rows);
+            return rows;
+        });
+    }).catch(function(err){
+        connector.getElementToDisplayCount().appendChild(html.span({style:'color:red', title: err.message},' error').create());
+        throw err;
+    });/*
     var connector = this;
     if(((connector.opts||{}).tableDef||{}).forInsertOnlyMode){
         return Promise.resolve([]);
@@ -60,7 +80,7 @@ myOwn.TableConnectorLocal.prototype.getData = function getData(){
     }).catch(function(err){
         connector.getElementToDisplayCount().appendChild(html.span({style:'color:red', title: err.message},' error').create());
         throw err;
-    });
+    });*/
 };
 
 myOwn.TableConnectorLocal.prototype.deleteRecord = function deleteRecord(depot, opts){
