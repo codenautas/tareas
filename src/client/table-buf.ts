@@ -46,30 +46,11 @@ myOwn.TableConnectorLocal.prototype.getData = function getData(){
     if(((connector.opts||{}).tableDef||{}).forInsertOnlyMode){
         return Promise.resolve([]);
     }
-    return connector.my.ajax.table.data({
-        table:connector.tableName,
-        fixedFields:connector.fixedFields,
-        paramfun:connector.parameterFunctions||{}
-    }).then(function(rows){
-        return connector.whenStructureReady.then(function(){
-            connector.getElementToDisplayCount().textContent=rows.length+' '+my.messages.displaying+'...';
-            return bestGlobals.sleep(10);
-        }).then(function(){
-            connector.my.adaptData(connector.def, rows);
-            return rows;
-        });
-    }).catch(function(err){
-        connector.getElementToDisplayCount().appendChild(html.span({style:'color:red', title: err.message},' error').create());
-        throw err;
-    });/*
-    var connector = this;
-    if(((connector.opts||{}).tableDef||{}).forInsertOnlyMode){
-        return Promise.resolve([]);
-    }
     if(connector.parameterFunctions){
-        throw new Error('no soportado parameterFunctions');
+        //throw new Error('no soportado parameterFunctions');
     }
-    return db[connector.tableName].where(fixedFields).toArray().then(function(rows){
+    var tx = my.ldb.transaction([connector.tableName],'readonly').objectStore(connector.tableName).getAll();
+    return IDBX(tx).then(function(rows){
         return connector.whenStructureReady.then(function(){
             connector.getElementToDisplayCount().textContent=rows.length+' '+my.messages.displaying+'...';
             return bestGlobals.sleep(10);
@@ -80,7 +61,7 @@ myOwn.TableConnectorLocal.prototype.getData = function getData(){
     }).catch(function(err){
         connector.getElementToDisplayCount().appendChild(html.span({style:'color:red', title: err.message},' error').create());
         throw err;
-    });*/
+    });
 };
 
 myOwn.TableConnectorLocal.prototype.deleteRecord = function deleteRecord(depot, opts){
