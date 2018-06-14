@@ -76,13 +76,11 @@ myOwn.TableConnectorLocal.prototype.deleteRecord = function deleteRecord(depot, 
 };
 
 myOwn.TableConnectorLocal.prototype.saveRecord = function saveRecord(depot, opts){
+    var connector = this;
     var sendedForUpdate = depot.my.cloneRow(depot.rowPendingForUpdate);
-    // var newRow=changing(depot.row, depot.rowPendingForUdpate);
-    return db[depot.def.name].update(depot.primaryKeyValues, depot.rowPendingForUpdate).then(function(){
-        return db[depot.def.name].get(depot.primaryKeyValues);
-    }).then(function(updatedRow){
-        depot.my.adaptData(depot.def,[updatedRow]);
-        return {sendedForUpdate:sendedForUpdate, updatedRow:updatedRow};
+    var tx = my.ldb.transaction([connector.tableName],'readwrite').objectStore(connector.tableName).put(depot.row);
+    return IDBX(tx).then(function(response){
+        return {sendedForUpdate:sendedForUpdate, updatedRow:depot.rowPendingForUpdate};
     });
 };
 
