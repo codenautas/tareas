@@ -29,19 +29,18 @@ myOwn.TableConnectorLocal = function(context, opts){
 myOwn.TableConnectorLocal.prototype.getStructure = async function getStructure(){
     var connector = this;
     var tx = my.ldb.transaction(['$structures'],'readonly').objectStore('$structures').get(connector.tableName);
-    connector.whenStructureReady = IDBX(tx).then(function(tableDef){
-        if(!tableDef){ 
-            var err = new Error;
-            err.code='NO-STRUCTURE';
-            throw err;
-        }
-        connector.def = changing(tableDef, connector.opts.tableDef||{});
-        return connector.def;
-    });
+    var tableDef = await IDBX(tx);
+    if(!tableDef){ 
+        var err = new Error;
+        err.code='NO-STRUCTURE';
+        throw err;
+    }
+    connector.def = changing(tableDef, connector.opts.tableDef||{});
+    connector.whenStructureReady = connector.def;
     return connector.whenStructureReady;
 };
 
-myOwn.TableConnectorLocal.prototype.getData = function getData(){
+myOwn.TableConnectorLocal.prototype.getData = async function getData(){
     var connector = this;
     if(((connector.opts||{}).tableDef||{}).forInsertOnlyMode){
         return Promise.resolve([]);
@@ -50,18 +49,17 @@ myOwn.TableConnectorLocal.prototype.getData = function getData(){
         //throw new Error('no soportado parameterFunctions');
     }
     var tx = my.ldb.transaction([connector.tableName],'readonly').objectStore(connector.tableName).getAll();
-    return IDBX(tx).then(function(rows){
-        return connector.whenStructureReady.then(function(){
-            connector.getElementToDisplayCount().textContent=rows.length+' '+my.messages.displaying+'...';
-            return bestGlobals.sleep(10);
-        }).then(function(){
-            connector.my.adaptData(connector.def, rows);
-            return rows;
-        });
-    }).catch(function(err){
+    try{
+        var rows = await IDBX(tx);
+        await connector.whenStructureReady
+        connector.getElementToDisplayCount().textContent=rows.length+' '+my.messages.displaying+'...';
+        await bestGlobals.sleep(10);
+        connector.my.adaptData(connector.def, rows);
+        return rows;
+    }catch(err){
         connector.getElementToDisplayCount().appendChild(html.span({style:'color:red', title: err.message},' error').create());
         throw err;
-    });
+    };
 };
 
 myOwn.TableConnectorLocal.prototype.deleteRecord = function deleteRecord(depot, opts){
@@ -75,13 +73,14 @@ myOwn.TableConnectorLocal.prototype.deleteRecord = function deleteRecord(depot, 
     );
 };
 
-myOwn.TableConnectorLocal.prototype.saveRecord = function saveRecord(depot, opts){
+myOwn.TableConnectorLocal.prototype.saveRecord = async function saveRecord(depot, opts){
     var connector = this;
     var sendedForUpdate = depot.my.cloneRow(depot.rowPendingForUpdate);
-    var tx = my.ldb.transaction([connector.tableName],'readwrite').objectStore(connector.tableName).put(depot.row);
-    return IDBX(tx).then(function(response){
-        return {sendedForUpdate:sendedForUpdate, updatedRow:depot.rowPendingForUpdate};
-    });
+    var tx1 = my.ldb.transaction([connector.tableName],'readwrite').objectStore(connector.tableName).put(depot.row);
+    var response = await IDBX(tx1);
+    var tx2 = my.ldb.transaction([connector.tableName],'readonly').objectStore(connector.tableName).get([response[0]]);
+    var row = await IDBX(tx2);
+    return {sendedForUpdate:sendedForUpdate, updatedRow:row};
 };
 
 myOwn.TableConnectorLocal.prototype.enterRecord = function enterRecord(depot){
