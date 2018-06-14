@@ -36,6 +36,7 @@ export function emergeAppTareas<T extends Constructor<AppBackend>>(Base:T){
             let myMenuPart:bp.MenuInfo[]=[
                 {menuType:'table', name:'objetivos'},
                 {menuType:'table', name:'usuarios' },
+                {menuType:'localDb', name:'local_db' },
             ];
             let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
             return menu;

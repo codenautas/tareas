@@ -90,4 +90,6 @@ myOwn.TableConnectorLocal.prototype.deleteEnter = function enterRecord(depot){
     return Promise.resolve();
 };
 
-myOwn.TableConnector = myOwn.TableConnectorLocal;
+myOwn.wScreens.localDb=function(addrParams){
+    myOwn.TableConnector = myOwn.TableConnectorLocal;
+};
