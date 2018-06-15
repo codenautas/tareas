@@ -3,12 +3,11 @@
 import "dialog-promise"
 import * as myOwn from "myOwn";
 import * as bestGlobals from "best-globals";
-import { connect } from "http2";
 
 var changing=bestGlobals.changing;
 var my=myOwn;
 
-//myOwn.TableConnectorDirect = myOwn.TableConnector;
+myOwn.TableConnectorDirect = myOwn.TableConnector;
 
 myOwn.TableConnectorLocal = function(context, opts){
     var connector = this;
@@ -46,12 +45,14 @@ myOwn.TableConnectorLocal.prototype.getData = async function getData(){
         return Promise.resolve([]);
     }
     if(connector.parameterFunctions){
-        //throw new Error('no soportado parameterFunctions');
+        for(var x in connector.parameterFunctions||{}){
+            throw new Error('no soportado parameterFunctions');
+        }
     }
-    var tx = my.ldb.transaction([connector.tableName],'readonly').objectStore(connector.tableName).getAll();
     try{
-        var rows = await IDBX(tx);
         await connector.whenStructureReady
+        var tx = my.ldb.transaction([connector.tableName],'readonly').objectStore(connector.tableName).getAll();
+        var rows = await IDBX(tx);
         connector.getElementToDisplayCount().textContent=rows.length+' '+my.messages.displaying+'...';
         await bestGlobals.sleep(10);
         connector.my.adaptData(connector.def, rows);
