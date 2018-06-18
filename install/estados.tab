@@ -1,1 +1,5 @@
-estado
+estado    |descripcion                      |final
+terminado |tarea terminada en forma esperada|true
+fracaso   |tarea que no puede continuarse   |true
+suspendida|tarea que puede continuarse      |false
+empezada  |tarea empezada                   |false
