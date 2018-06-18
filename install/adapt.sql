@@ -64,3 +64,13 @@ insert into tareas (objetivo, tarea, descripcion, avance)
               else 100
          end
     from objetivos, lateral (select * from generate_series(1,max_tar) num) n;
+
+insert into detalles
+  select objetivo, tarea, row_number() over (), 
+         case round(random()::decimal*5,0) 
+           when 1 then 'Anotar'
+           when 2 then 'Colocar'
+           when 3 then 'Supervisar'
+           else 'Realizar'
+         end || ' ' || n
+    from tareas inner join objetivos using(objetivo), lateral (select * from generate_series(1,max_tar/10+1) num) n;

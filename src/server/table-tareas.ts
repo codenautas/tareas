@@ -20,7 +20,10 @@ export function tareas(context: TableContext): TableDefinition {
         foreignKeys: [
             { references: 'objetivos'      , fields: ['objetivo'] },
             { references: 'estados'        , fields: ['estado'  ] },
-        ]
+        ],
+        detailTables: [
+            { table: 'detalles'      , fields: ['objetivo','tarea'], abr: 'D' },
+        ],
     };
 }
 

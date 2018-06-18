@@ -14,8 +14,7 @@
   ],
   "repository": "codenautas/tareas",
   "dependencies": {
-    "backend-plus": "~0.21.13",
-    "dexie": "~2.0.4",
+    "backend-plus": "~0.21.15",
     "mini-tools": "~1.0.2",
     "require-bro": "~0.1.11"
   },
@@ -24,7 +23,7 @@
     "@types/yazl": "~2.4.0",
     "discrepances": "~0.2.2",
     "pg-triggers": "~0.2.1",
-    "types.d.ts": "~0.1.25"
+    "types.d.ts": "~0.1.26"
   },
   "engines": {
     "node": ">= 8.0.0"
