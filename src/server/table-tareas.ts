@@ -14,10 +14,12 @@ export function tareas(context: TableContext): TableDefinition {
             { name: "tarea"      , typeName: 'text', allow:{update:admin}, },
             { name: "descripcion", typeName: 'text', allow:{update:admin}, isName:true },
             { name: "avance"     , typeName: 'decimal', },
+            { name: "estado"     , typeName: 'text', },
         ],
         primaryKey: ['objetivo','tarea'],
         foreignKeys: [
             { references: 'objetivos'      , fields: ['objetivo'] },
+            { references: 'estados'        , fields: ['estado'  ] },
         ]
     };
 }

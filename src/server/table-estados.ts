@@ -2,24 +2,25 @@
 
 import { TableContext, TableDefinition } from "./types-tareas"
 
-export function objetivos(context: TableContext): TableDefinition {
+export function estados(context: TableContext): TableDefinition {
     var admin = context.user.rol === 'admin';
     return {
-        name: 'objetivos',
-        elementName: 'objetivo',
+        name: 'estados',
+        elementName: 'estado',
         editable: admin,
         allow:{update:true, "vertical-edit":false},
         fields: [
-            { name: "objetivo"   , typeName: 'text', },
+            { name: "estado"     , typeName: 'text', },
             { name: "descripcion", typeName: 'text', isName:true },
+            { name: "final"      , typeName: 'boolean'           },
         ],
-        primaryKey: ['objetivo'],
+        primaryKey: ['estado'],
         detailTables: [
             { table: 'tareas'      , fields: ['objetivo'], abr: 'T' },
         ],
         offline:{
-            mode:'master',
-            details:['tareas','detalles']
+            mode:'reference',
+            details:[]
         },
     };
 }

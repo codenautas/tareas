@@ -14,9 +14,9 @@
   ],
   "repository": "codenautas/tareas",
   "dependencies": {
-    "backend-plus": "~0.21.12",
+    "backend-plus": "~0.21.13",
     "dexie": "~2.0.4",
-    "mini-tools": "~1.0.1",
+    "mini-tools": "~1.0.2",
     "require-bro": "~0.1.11"
   },
   "devDependencies": {

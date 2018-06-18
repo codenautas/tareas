@@ -44,8 +44,10 @@ export function emergeAppTareas<T extends Constructor<AppBackend>>(Base:T){
         getTables(){
             return [
                 'usuarios',
+                'estados',
                 'objetivos',
                 'tareas',
+                'detalles',
             ]
         }
     }
