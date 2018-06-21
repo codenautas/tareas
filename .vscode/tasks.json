@@ -24,7 +24,7 @@
         {
             "identifier": "build-all",
             "label": "build-all",
-            "dependsOn": ["tsc-client", "tsc-server"]
+            "dependsOn": ["tsc-server", "tsc-client"]
         }
     ]
 }

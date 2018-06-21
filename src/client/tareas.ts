@@ -23,14 +23,13 @@ myOwn.clientSides.$lock={
                     primaryKeyValues:depot.primaryKeyValues
                 }).then(function(result){
                     var tables=[depot.def.name].concat(depot.def.offline.details)
-                    var tx=my.ldb.transaction(tables, "readwrite");
+                    var promiseChain=Promise.resolve();
                     tables.forEach(function(name,i){
-                        var table = tx.objectStore(name);
-                        result.data[i].forEach(function(record){
-                            table.put(record);
+                        promiseChain=promiseChain.then(function(){
+                            my.ldb.putMany(name,result.data[i]);
                         })
                     })
-                    return IDBX(tx);
+                    return promiseChain;
                 }).then(function(){
                     control.setTypedValue('⚿');
                 })

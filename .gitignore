@@ -67,3 +67,4 @@ package-lock.json
 
 client/*
 server/*
+test/*

@@ -1,8 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "client",
-        "allowJs": true,
-        "checkJs": true
+        "outDir": "client"
     },
     "include":[
         "src/client"

@@ -14,23 +14,27 @@
   ],
   "repository": "codenautas/tareas",
   "dependencies": {
-    "backend-plus": "~0.21.15",
+    "backend-plus": "~0.22.0",
     "mini-tools": "~1.0.2",
     "require-bro": "~0.1.11"
   },
   "devDependencies": {
-    "@types/mocha": "~5.2.2",
+    "@types/mocha": "~5.2.3",
+    "@types/puppeteer": "~1.3.4",
     "@types/yazl": "~2.4.0",
     "discrepances": "~0.2.2",
+    "mocha": "~5.2.0",
+    "pg-promise-strict": "~0.4.10",
     "pg-triggers": "~0.2.1",
-    "types.d.ts": "~0.1.26"
+    "puppeteer": "~1.5.0",
+    "types.d.ts": "~0.1.28"
   },
   "engines": {
     "node": ">= 8.0.0"
   },
   "scripts": {
-    "test": "mocha --reporter spec --bail --check-leaks test/",
-    "prepublish": "(tsc -p tsconfig-client.json || echo \"continue w/error\") && (tsc -p tsconfig-server.json  || echo \"continue w/error\")",
+    "test": "(npm run prepublish || echo \"w/error\") && mocha --reporter spec --bail --check-leaks test/",
+    "prepublish": "(tsc -p tsconfig-server.json || echo \"continue w/error\") && (tsc -p tsconfig-client.json  || echo \"continue w/error\")",
     "start": "node server/server-tareas.js"
   },
   "qa-control": {

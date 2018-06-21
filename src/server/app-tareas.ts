@@ -25,7 +25,7 @@ export function emergeAppTareas<T extends Constructor<AppBackend>>(Base:T){
                     ProceduresTareas.map(be.procedureDefCompleter, be)
                 );
             });
-        }    
+        }
         clientIncludes(req:bp.Request, hideBEPlusInclusions:boolean){
             return super.clientIncludes(req, hideBEPlusInclusions).concat([
                 {type:'js' , src:'client/tareas.js', ts:'src/client'},
