@@ -63,3 +63,4 @@ client-setup:
   lang: es
   menu: true
   grid-buffer: idbx
+  version: 0.2
