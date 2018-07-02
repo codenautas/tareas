@@ -4,9 +4,16 @@ import * as myOwn from "myOwn";
 
 var my=myOwn;
 
-var updateOnlineStatus = function updateOnlineStatus() {
-    var condition = navigator.onLine ? "ONLINE" : "OFFLINE";
-    alertPromise("Estado: " + condition);
+var updateOnlineStatus = async function updateOnlineStatus() {
+    var connection;
+    try{
+        await my.ajax.connection.test();
+        connection = navigator.onLine;
+    }catch(err){
+        connection = false;
+    }
+    var state = connection ? "ONLINE" : "OFFLINE";
+    alertPromise("Estado: " + state);
 }
 window.onload = function() {
     updateOnlineStatus();
