@@ -40,13 +40,13 @@ login:
     allowHttpLogin: true
     fileStore: false
     secret: secret tareahs
-    skipCheckAlreadyLoggedIn: true
     loginForm:
       formTitle: Tareas
-      usernameLabel: usuario
+      usernameLabel: usuariox
       passwordLabel: md5clave
       buttonLabel: entrar
       formImg: img/login-lock-icon.png
+      autoLogin: true
     chPassForm:
       usernameLabel: usuario
       oldPasswordLabel: clave anterior
