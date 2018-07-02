@@ -8,7 +8,7 @@ var updateOnlineStatus = async function updateOnlineStatus() {
     var connection;
     try{
         await my.ajax.connection.test();
-        connection = navigator.onLine;
+        connection = true;
     }catch(err){
         connection = false;
     }
