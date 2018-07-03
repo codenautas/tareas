@@ -4,19 +4,21 @@ import * as myOwn from "myOwn";
 
 var my=myOwn;
 
-var updateOnlineStatus = async function updateOnlineStatus() {
-    var connection;
-    try{
-        await my.ajax.connection.test();
-        connection = true;
-    }catch(err){
-        connection = false;
-    }
-    var state = connection ? "ONLINE" : "OFFLINE";
-    alertPromise("Estado: " + state);
+var testConnection = function testConnection() {
+    return my.ajax.connection.test({}).then(function(result){
+        return true;
+    }).catch(function(err){
+        return false;
+    });
+}
+var updateOnlineStatus = function(){
+    testConnection().then(function(connection){
+        var state = connection ? "ONLINE" : "OFFLINE";
+        alertPromise("Estado: " + state);
+    })
 }
 window.onload = function() {
-    updateOnlineStatus();
+    setTimeout(updateOnlineStatus,1000);
     window.addEventListener("offline", updateOnlineStatus, false);
     window.addEventListener("online", updateOnlineStatus, false);
 };
