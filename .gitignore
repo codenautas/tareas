@@ -66,5 +66,6 @@ local-*
 package-lock.json
 
 client/*
+!client/ext
 server/*
 test/*

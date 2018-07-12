@@ -34,8 +34,17 @@ export function emergeAppTareas<T extends Constructor<AppBackend>>(Base:T){
         }
         getMenu():bp.MenuDefinition{
             let myMenuPart:bp.MenuInfo[]=[
-                {menuType:'table', name:'objetivos'},
-                {menuType:'table', name:'usuarios' },
+                {menuType:'table', name:'objetivos', showInOfflineMode: true},
+                {menuType:'table', name:'usuarios', showInOfflineMode: true },
+                { menuType: 'menu', name: 'menu_visible_offline', showInOfflineMode: true, menuContent: [
+                    { menuType: 'table', name: 'objetivos', label: 'no_visible_offline' },
+                    { menuType: 'table', name: 'objetivos', showInOfflineMode: true, label: 'visible_offline' },
+                    { menuType: 'table', name: 'objetivos', label: 'no_visible_offline' },
+                ] },
+                { menuType: 'menu', name: 'menu_no_visible_offline', menuContent: [
+                    { menuType: 'table', name: 'objetivos', label: 'no_visible_offline'  },
+                    { menuType: 'table', name: 'objetivos' , label: 'no_visible_offline' },
+                ] },
             ];
             let menu = {menu: super.getMenu().menu.concat(myMenuPart)}
             return menu;
