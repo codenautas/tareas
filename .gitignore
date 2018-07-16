@@ -66,6 +66,6 @@ local-*
 package-lock.json
 
 client/*
-!client/ext
+!client/ext/offline.appcache
 server/*
 test/*

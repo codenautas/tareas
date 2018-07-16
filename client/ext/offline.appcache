@@ -3,12 +3,66 @@ CACHE MANIFEST
 # Version 0.1.0
 
 #--------------------------- HTMLs ---------------------------------
-
+./ext.html
 #--------------------------- JS ------------------------------------
+../lib/js-yaml.js
+../lib/xlsx.core.min.js
+../lib/lazy-some.js
+../lib/like-ar.js
+../lib/best-globals.js
+../lib/json4all.js
+../dialog-promise/dialog-promise.js
+../lib/js-to-html.js
+../moment/min/moment.js
+../pikaday/pikaday.js
+../lib/big.js
+../lib/require-bro.js
+../lib/type-store.js
+../lib/typed-controls.js
+../lib/ajax-best-promise.js
+../my-localdb.js
+../my-things.js
+../my-skin.js
+../my-tables.js
+../my-inform-net-status.js
+../my-menu.js
+../lib/cliente-en-castellano.js
+../client/tareas.js
+../client/offline.js
+#../menu.js
 
 #------------------------------ CSS ---------------------------------
-
+../dialog-promise/dialog-promise.css
+../pikaday/pikaday.css
+../css/my-things.css
+../css/my-tables.css
+../css/my-menu.css
 #------------------------------ IMAGES ---------------------------------
+#../img/logo-128.png
+#../img/logo.png
+../img/server-error.png
+../img/not-sync.png
+../img/detail-unknown.png
+../img/destroy-filter.png
+../img/detail-unknown.png
+../img/detail-expand.png
+../img/floating-ruler-toggle.png
+../img/three-dot-menu.png
+../img/menu-dots.png
+../img/filter.png
+../img/not-sync.png 
+../img/main-loading.gif
+../img/airplane-on.png
+../img/airplane-off.png
+../img/airplane.png
+../img/server.png
+../img/network-signal.png
+../img/network-no-signal.png
+../img/detail-contract.png
+../img/tables-update-by-field.png
+../img/insert.png
+../img/delete.png
+
 
 NETWORK:
 *
