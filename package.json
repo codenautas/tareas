@@ -14,14 +14,14 @@
   ],
   "repository": "codenautas/tareas",
   "dependencies": {
-    "backend-plus": "~0.23.21"
+    "backend-plus": "~0.23.22"
   },
   "devDependencies": {
-    "@types/mocha": "~5.2.4",
+    "@types/mocha": "~5.2.5",
     "@types/puppeteer": "~1.5.0",
     "@types/yazl": "~2.4.0",
     "mocha": "~5.2.0",
-    "puppeteer": "~1.5.0",
+    "puppeteer": "~1.6.0",
     "discrepances": "~0.2.3",
     "mini-tools": "~1.0.2",
     "require-bro": "~0.1.11",
