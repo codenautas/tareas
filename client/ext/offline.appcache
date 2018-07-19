@@ -27,7 +27,6 @@ CACHE MANIFEST
 ../my-inform-net-status.js
 ../my-menu.js
 ../lib/cliente-en-castellano.js
-../client/tareas.js
 ../client/offline.js
 #../menu.js
 

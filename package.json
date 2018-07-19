@@ -14,7 +14,7 @@
   ],
   "repository": "codenautas/tareas",
   "dependencies": {
-    "backend-plus": "~0.23.23"
+    "backend-plus": "~0.23.24"
   },
   "devDependencies": {
     "@types/mocha": "~5.2.5",
