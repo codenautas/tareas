@@ -14,7 +14,7 @@
   ],
   "repository": "codenautas/tareas",
   "dependencies": {
-    "backend-plus": "~0.24.1"
+    "backend-plus": "~0.24.5"
   },
   "devDependencies": {
     "@types/mocha": "~5.2.5",
@@ -27,7 +27,7 @@
     "require-bro": "~0.1.11",
     "pg-promise-strict": "~0.4.13",
     "pg-triggers": "~0.2.2",
-    "types.d.ts": "~0.1.31"
+    "types.d.ts": "~0.1.32"
   },
   "engines": {
     "node": ">= 8.0.0"
